@@ -1,0 +1,17 @@
+# Archivos temporales de RStudio
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# Repositorio del profesor
+base/
+
+# Bases de datos grandes
+data/*.csv
+
+# Parametros generados
+config/parametros_tarea3.csv
+
+# Archivos temporales de Excel
+~$*.xlsx
