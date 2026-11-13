@@ -23,3 +23,4 @@ alerta.movil <- function(df, ventana, k.alerta) {
   
   return(conteo.diario)
 }
+
