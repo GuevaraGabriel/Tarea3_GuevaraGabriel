@@ -69,5 +69,39 @@ resultado.1c <- sum(prueba.comun$alerta, na.rm = TRUE)
 
 print(resultado.1c)
 
-
+#===============================================================================
   
+# Grafico del Ejercicio 1
+grafico.ej1 <- ggplot(prueba, aes(x = fecha, y = n.tx)) +
+  geom_line(color = "steelblue") +
+  geom_line(
+    aes(y = media),
+    color = "darkorange",
+    linewidth = 0.7,
+    na.rm = TRUE
+  ) +
+  geom_point(
+    data = filter(prueba, alerta == TRUE),
+    color = "red",
+    size = 2
+  ) +
+  labs(
+    title = "Transacciones diarias durante 2025",
+    subtitle = "Comparacion con la media movil de 7 dias",
+    x = "Fecha",
+    y = "Numero de transacciones"
+  ) +
+  theme_minimal()
+
+# Mostrar el grafico
+print(grafico.ej1)
+
+# Guardar el grafico como imagen PNG
+ggsave(
+  "info/figuras/ej1_alertas.png",
+  plot = grafico.ej1,
+  width = 10,
+  height = 6,
+  dpi = 300
+)
+

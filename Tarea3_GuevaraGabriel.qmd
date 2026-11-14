@@ -73,3 +73,16 @@ cat(
 )
 ```
 
+
+## Ejercicio 1 — Alertas por ventana móvil
+
+Se analizaron las transacciones diarias de 2025 utilizando una ventana
+de 7 días y un factor de 2 desviaciones estándar.
+
+Se identificaron **25 días con alerta**, siendo el primero el
+**16 de enero de 2025**.
+
+### Gráfico de transacciones y alertas
+
+![Transacciones diarias, media móvil y días con alerta](info/figuras/ej1_alertas.png)
+
