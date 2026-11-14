@@ -79,9 +79,49 @@ benford.canton <- function(df, canal, cantones) {
   return(resultado)
 }
 
+#===============================================================================
 
+#Ejercicio 3
 
+# Recibe: transacciones, tasa efectiva anual y canal.
+# Devuelve: lista con tabla mensual, tasa mensual,
+# valor acumulado e intereses ganados.
 
+valor.acumulado <- function(df, tasa.anual, canal) {
+  # Calcular la tasa efectiva mensual
+  tasa.mensual <- (1 + tasa.anual)^(1 / 12) - 1
+  
+  # Guardar el canal seleccionado
+  canal.seleccionado <- canal
+  
+  # Sumar los montos de cada mes
+  montos.mensuales <- df |>
+    filter(canal == canal.seleccionado) |>
+    mutate(mes = as.integer(format(fecha, "%m"))) |>
+    group_by(mes) |>
+    summarise(monto = sum(monto_crc, na.rm = TRUE),
+              .groups = "drop")
+  
+  # Crear la tabla de los 12 meses
+  tabla <- tibble(mes = 1:12) |>
+    left_join(montos.mensuales, by = "mes") |>
+    mutate(monto = replace_na(monto, 0),
+           factor = (1 + tasa.mensual)^(12 - mes))
+  
+  # Calcular el valor acumulado
+  va <- sum(tabla$monto * tabla$factor)
+  
+  # Calcular los intereses ganados
+  interes <- va - sum(tabla$monto)
+  
+  # Devolver los resultados
+  return(list(
+    tabla = tabla,
+    tasa.mensual = tasa.mensual,
+    va = va,
+    interes = interes
+  ))
+}
 
 
 
