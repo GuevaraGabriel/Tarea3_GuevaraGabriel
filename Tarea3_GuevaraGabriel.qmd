@@ -111,6 +111,36 @@ resultado.2d <- mad.web |>
 
 
 ```{r}
+#| label: resultados-ej3
+#| include: false
+
+# Obtener los parametros personales
+tasa.anual <- as.numeric(
+  parametros$valor[parametros$parametro == "tasa.anual"]
+)
+
+canal.interes <- parametros$valor[
+  parametros$parametro == "canal.interes"
+]
+
+# Calcular resultados personales
+acumulado.personal <- valor.acumulado(
+  transacciones, tasa.anual, canal.interes
+)
+
+resultado.3a <- acumulado.personal$va
+resultado.3b <- acumulado.personal$interes
+
+# Calcular resultado comun
+acumulado.comun <- valor.acumulado(
+  transacciones, 0.06, "App"
+)
+
+resultado.3c <- acumulado.comun$va
+```
+
+
+```{r}
 #| label: hoja-respuestas
 #| echo: false
 #| comment: ""
@@ -123,6 +153,9 @@ cat(
   "RESULTADO_2B = ", resultado.2b, "\n",
   "RESULTADO_2C = ", resultado.2c, "\n",
   "RESULTADO_2D = ", resultado.2d, "\n",
+  "RESULTADO_3A = ", sprintf("%.2f", resultado.3a), "\n",
+  "RESULTADO_3B = ", sprintf("%.2f", resultado.3b), "\n",
+  "RESULTADO_3C = ", sprintf("%.2f", resultado.3c), "\n",
   sep = ""
 )
 ```
