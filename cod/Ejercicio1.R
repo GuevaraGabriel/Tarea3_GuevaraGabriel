@@ -43,7 +43,31 @@ glimpse(prueba)
 
 print(head(prueba, 9))
 
+#===============================================================================
+
 # Ejercicio 1A: cantidad de días con alerta
 resultado.1a <- sum(prueba$alerta, na.rm = TRUE)
 
 print(resultado.1a)
+
+#===============================================================================
+
+# Ejercicio 1B: fecha de la primera alerta
+resultado.1b <- prueba |>
+  filter(alerta == TRUE) |>
+  slice_head(n = 1) |>
+  pull(fecha)
+
+print(resultado.1b)
+
+#===============================================================================
+
+# Ejercicio 1C: alertas con parametros comunes
+prueba.comun <- alerta.movil(transacciones, ventana = 7, k.alerta = 2)
+
+resultado.1c <- sum(prueba.comun$alerta, na.rm = TRUE)
+
+print(resultado.1c)
+
+
+  
