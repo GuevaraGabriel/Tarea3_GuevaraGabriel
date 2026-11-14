@@ -250,4 +250,17 @@ ggplot(datos.benford,
 ```
 
 
+## Ejercicio 3 — Valor acumulado e intereses
+
+Se analizaron los montos mensuales de las transacciones realizadas
+mediante el canal App, utilizando una tasa efectiva anual del 9 %.
+
+El valor acumulado al 31 de diciembre de 2025 fue de
+**₡21.765.923.831,82**, de los cuales **₡853.206.531,82**
+corresponden a intereses ganados.
+
+### Comparación de montos mensuales y valores acumulados
+
+![Montos originales y valores acumulados por mes](info/figuras/ej3_acumulado.png)
+
 

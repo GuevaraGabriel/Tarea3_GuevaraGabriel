@@ -61,3 +61,60 @@ cat(
 
 # Revisar la tabla mensual
 print(resultado.personal$tabla)
+
+
+# ============================================================
+# Grafico del Ejercicio 3: Valor acumulado
+# ============================================================
+
+# Preparar los datos
+datos.grafico <- resultado.personal$tabla |>
+  mutate(
+    acumulado = monto * factor
+  ) |>
+  select(mes, monto, acumulado) |>
+  pivot_longer(
+    cols = c(monto, acumulado),
+    names_to = "tipo",
+    values_to = "valor"
+  ) |>
+  mutate(
+    tipo = recode(
+      tipo,
+      "monto" = "Monto original",
+      "acumulado" = "Valor acumulado"
+    )
+  )
+
+# Crear el grafico
+grafico.ej3 <- ggplot(datos.grafico, aes(x = factor(mes), y = valor, fill = tipo)) +
+  geom_col(position = "dodge", width = 0.7) +
+  scale_fill_manual(values = c(
+    "Monto original" = "steelblue",
+    "Valor acumulado" = "darkorange"
+  )) +
+  scale_y_continuous(labels = scales::label_number(scale = 1e-9, suffix = " mil millones")) +
+  labs(
+    title = "Valor acumulado de las transacciones",
+    subtitle = paste("Canal:", canal.interes, "| Tasa anual:", tasa.anual * 100, "%"),
+    x = "Mes",
+    y = "Monto en colones",
+    fill = "Tipo de monto"
+  ) +
+  theme_minimal()
+
+# Mostrar grafico
+print(grafico.ej3)
+
+# Guardar imagen
+dir.create("info/figuras",
+           recursive = TRUE,
+           showWarnings = FALSE)
+
+ggsave(
+  "info/figuras/ej3_acumulado.png",
+  plot = grafico.ej3,
+  width = 11,
+  height = 6,
+  dpi = 300
+)
