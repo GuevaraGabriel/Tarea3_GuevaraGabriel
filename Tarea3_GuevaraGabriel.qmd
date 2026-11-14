@@ -10,6 +10,7 @@ execute:
 #| label: configuracion
 #| include: false
 
+# Ejercicio 1
 library(tidyverse)
 
 # Cargar las funciones
@@ -36,6 +37,15 @@ ventana <- as.integer(
 k.alerta <- as.numeric(
   parametros$valor[parametros$parametro == "k.alerta"]
 )
+
+#===============================================================================
+
+# Ejercicio 2
+# Leer la tabla de cantones
+cantones <- read_csv("base/cantones.csv", show_col_types = FALSE)
+
+# Obtener el canal personalizado desde el CSV
+canal.benford <- parametros$valor[parametros$parametro == "canal.benford"]
 ```
 
 ```{r}
@@ -60,6 +70,46 @@ analisis.comun <- alerta.movil(transacciones, 7, 2)
 resultado.1c <- sum(analisis.comun$alerta, na.rm = TRUE)
 ```
 
+
+```{r}
+#| label: resultados-ej2
+#| include: false
+
+# MAD general del canal personalizado
+montos.benford <- transacciones |>
+  filter(canal == canal.benford) |>
+  pull(monto_crc)
+
+resultado.2a <- benford.mad(montos.benford)
+
+# Calcular el MAD por canton
+mad.cantones <- benford.canton(
+  transacciones,
+  canal.benford,
+  cantones
+)
+
+# Ejercicio 2B: canton con mayor MAD
+resultado.2b <- mad.cantones |>
+  slice_max(mad, n = 1, with_ties = FALSE) |>
+  pull(canton)
+
+# Ejercicio 2C: cantones con MAD mayor a 0.015
+resultado.2c <- sum(mad.cantones$mad > 0.015, na.rm = TRUE)
+
+# Ejercicio 2D: canton con mayor MAD en Web
+mad.web <- benford.canton(
+  transacciones,
+  "Web",
+  cantones
+)
+
+resultado.2d <- mad.web |>
+  slice_max(mad, n = 1, with_ties = FALSE) |>
+  pull(canton)
+```
+
+
 ```{r}
 #| label: hoja-respuestas
 #| echo: false
@@ -69,6 +119,10 @@ cat(
   "RESULTADO_1A = ", resultado.1a, "\n",
   "RESULTADO_1B = ", format(resultado.1b, "%Y-%m-%d"), "\n",
   "RESULTADO_1C = ", resultado.1c, "\n",
+  "RESULTADO_2A = ", sprintf("%.4f", resultado.2a), "\n",
+  "RESULTADO_2B = ", resultado.2b, "\n",
+  "RESULTADO_2C = ", resultado.2c, "\n",
+  "RESULTADO_2D = ", resultado.2d, "\n",
   sep = ""
 )
 ```
