@@ -225,22 +225,13 @@ datos.benford <- tibble(
   )
 
 # Crear el grafico
-ggplot(datos.benford,
-       aes(x = digito, y = Proporcion,
-           fill = Distribucion)) +
-  geom_col(
-    position = "dodge",
-    width = 0.7
-  ) +
-  scale_y_continuous(
-    labels = scales::label_percent(accuracy = 1)
-  ) +
-  scale_fill_manual(
-    values = c(
-      "Observada" = "steelblue",
-      "Benford" = "darkorange"
-    )
-  ) +
+grafico.benford <- ggplot(datos.benford, aes(x = digito, y = Proporcion, fill = Distribucion)) +
+  geom_col(position = "dodge", width = 0.7) +
+  scale_y_continuous(labels = scales::label_percent(accuracy = 1)) +
+  scale_fill_manual(values = c(
+    "Observada" = "steelblue",
+    "Benford" = "darkorange"
+  )) +
   labs(
     title = "Distribucion de primeros digitos",
     subtitle = paste("Canal:", canal.benford),
@@ -249,8 +240,23 @@ ggplot(datos.benford,
     fill = "Distribucion"
   ) +
   theme_minimal()
+
+# Mostrar el grafico
+print(grafico.benford)
+
+# Guardar el PNG
+ggsave(
+  "info/figuras/ej2_benford.png",
+  plot = grafico.benford,
+  width = 10,
+  height = 6,
+  dpi = 300,
+  bg = "white"
+)
+
 ```
 
+Garabito presenta el mayor MAD (0,0179), pero cuenta con solo 690 transacciones. Esta desviación podría estar relacionada con el tamaño de la muestra y no demuestra fraude por sí sola.
 
 ## Ejercicio 3 — Valor acumulado e intereses
 
