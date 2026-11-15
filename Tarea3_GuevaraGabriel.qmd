@@ -272,3 +272,8 @@ corresponden a intereses ganados.
 ![Montos originales y valores acumulados por mes](info/figuras/ej3_acumulado.png)
 
 
+# Link del git hub
+Tambien en los comentarios de la entrega
+
+https://github.com/GuevaraGabriel/Tarea3_GuevaraGabriel?utm_source=chatgpt.com
+
