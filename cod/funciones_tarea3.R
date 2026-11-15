@@ -56,24 +56,28 @@ benford.mad <- function(x) {
 }
 
 # Recibe: transacciones, canal y tabla de cantones.
-# Devuelve: MAD de Benford para cada canton del canal.
+# Devuelve: cod_canton, canton, n, mad y clase,
+# ordenados de mayor a menor MAD.
 
 benford.canton <- function(df, canal, cantones) {
-  # Guardar el canal seleccionado
   canal.seleccionado <- canal
   
-  # Filtrar las transacciones del canal
-  datos.canal <- df |>
-    filter(canal == canal.seleccionado)
-  
-  # Calcular el MAD de cada canton
-  resultado <- datos.canal |>
+  resultado <- df |>
+    filter(canal == canal.seleccionado, !is.na(monto_crc), monto_crc > 0) |>
     group_by(cod_canton) |>
-    summarise(mad = benford.mad(monto_crc), .groups = "drop")
-  
-  # Agregar los nombres de los cantones
-  resultado <- resultado |>
+    summarise(n = n(),
+              mad = benford.mad(monto_crc),
+              .groups = "drop") |>
     left_join(cantones, by = "cod_canton") |>
+    mutate(
+      clase = case_when(
+        mad <= 0.006 ~ "Conformidad cercana",
+        mad <= 0.012 ~ "Conformidad aceptable",
+        mad <= 0.015 ~ "Conformidad marginal",
+        TRUE ~ "No conformidad"
+      )
+    ) |>
+    select(cod_canton, canton, n, mad, clase) |>
     arrange(desc(mad))
   
   return(resultado)
